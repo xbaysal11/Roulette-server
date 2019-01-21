@@ -1,16 +1,16 @@
 class User {
-  constructor(socket, { firstName, lastName }) {
+  constructor(socket, { first_name, last_name }) {
     this.id = socket.id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.first_name = first_name;
+    this.last_name = last_name;
     this.socket = socket;
   }
 
   pure() {
     return {
       id: this.id,
-      firstName: this.firstName,
-      lastName: this.lastName
+      first_name: this.first_name,
+      last_name: this.last_name
     };
   }
 }

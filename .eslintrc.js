@@ -1,30 +1,18 @@
 module.exports = {
-    "env": {
-        "es6": true,
-        "node": true
+    env: {
+        es6: true,
+        node: true
     },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": 2015
+    extends: ["eslint:recommended", "plugin:prettier/recommended"],
+    plugins: ["prettier"],
+    parserOptions: {
+        ecmaVersion: 2015
     },
-    "rules": {
-        "indent": [
-            "error",
-            2
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "double"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
+    rules: {
+        "linebreak-style": ["error", "unix"],
+        quotes: ["error", "double"],
+        semi: ["error", "always"],
         "no-console": ["off"],
-        "no-debugger": ["off"],
+        "no-debugger": ["off"]
     }
 };

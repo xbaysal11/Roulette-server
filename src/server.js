@@ -1,17 +1,16 @@
 const express = require("express");
-const path = require("path");
 const expressLogging = require("express-logging");
 const logger = require("logops");
-const fs = require("fs");
 const io = require("socket.io");
+const bodyParser = require("body-parser");
+//
 const cfg = require("../config.json");
 const Room = require("./Room");
 const User = require("./User");
 const Message = require("./Message");
+const { upload_handler } = require("./handlers");
 
 // loglevel.setLevel()
-
-const VALID_EXTENSIONS = [".jpg", ".jpeg", ".png", ".svg"];
 
 module.exports = () => {
     // create server
@@ -19,29 +18,11 @@ module.exports = () => {
     const app = express();
     const ios = io.listen(app.listen(cfg.port, cfg.host));
     const room = new Room(ios);
-
     app.use(expressLogging(logger));
+    app.use(bodyParser.raw());
+    app.use("/media", express.static("media"));
 
-    app.post("/upload", (req, res) => {
-        if (req.headers["x-filename"]) {
-            const ext = path.extname(req.headers["x-filename"]).toLowerCase();
-            if (!VALID_EXTENSIONS.includes(ext)) {
-                res.status(400);
-                res.end("Invalid filename extension");
-            } else {
-                req.pipe(
-                    fs.createWriteStream(`./media/${Math.random()}${ext}`)
-                );
-                req.on("end", () => {
-                    res.end("Good file!");
-                });
-            }
-        } else {
-            res.status(400);
-            res.write("Hello\n");
-            res.end("Header X-Filename is required!");
-        }
-    });
+    app.post("/upload", upload_handler);
 
     ios.on("connection", socket => {
         socket.on("AUTH", data => {

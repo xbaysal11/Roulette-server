@@ -46,21 +46,6 @@ const upload_handler = (req, res) => {
             file.write(data);
             sendJsonResponse(res, "success", url);
         });
-
-        // req.on("end", () => {
-        //     const hash = hasher.digest("hex");
-        //     const filename = `${hash}${ext}`;
-        //     const file_path = `${cfg.media_path}/${filename}`;
-        //     const url = `${cfg.media_url}/${filename}`;
-
-        //     req.pipe(fs.createWriteStream(file_path));
-        //     console.log("HELO!");
-        //     req.on("end", () => {
-        //         sendJsonResponse(res, "success", url);
-        //     });
-        // });
-
-        // Save data as file in ./media
     } else {
         sendJsonResponse(
             res,
